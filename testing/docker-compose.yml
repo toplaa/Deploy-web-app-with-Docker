@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  traefik:
+    image: traefik:2.2
+    labels:
+    - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    - "traefik.http.routers.global-redirect.rule=HostRegexp(`{host:.+}`)"
+    - "traefik.http.routers.global-redirect.entrypoints=web"
+    - "traefik.http.routers.global-redirect.middlewares=redirect-to-https"
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ./traefik.toml:/etc/traefik/traefik.toml:ro
+    container_name: traefik
+    networks:
+    - public
+    restart: always
+
+networks:
+  public:
+

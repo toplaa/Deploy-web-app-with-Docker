@@ -1,0 +1,21 @@
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+  [entryPoints.web-secure]
+    address = ":443"
+
+[certificatesResolvers.myresolver.acme]
+  email = "your@email.com"
+  storage = "acme.json"
+  [certificatesResolvers.myresolver.acme.httpChallenge]
+    # used during the challenge
+    entryPoint = "web"
+
+[providers]
+  [providers.docker]
+    endpoint = "unix:///var/run/docker.sock"
+
+[log]
+  level = "DEBUG"
+
+[accessLog]
